@@ -53,7 +53,7 @@ export const signupUser = (userData) => {
             if(!res.error)
             dispatch(signupUserSuccess());
             else
-            dispatch(userFailure());
+            dispatch(userFailure(res.error));
         })
         .catch(error => {
             const errorMsg = error.message;

@@ -124,7 +124,7 @@ const SignUp = ({ loading, signupUser }) => {
   const [visible, setVisible] = useState(false);
 
   const onSignUpClick = values => signupUser(values)
-          // .then(res => setVisible(false));
+          .then(res => setVisible(false));
 
   return (
     <div>

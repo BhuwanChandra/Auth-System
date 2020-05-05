@@ -5,7 +5,13 @@ import {
     AUTHENTICATE_USER,
     LOGOUT_USER,
 } from "./types";
+import { notification } from 'antd';
 
+const openNotification = (type, title) => {
+    notification[type]({
+        message: title
+    });
+};
 
 const initialState = {
     loading: false,
@@ -21,16 +27,20 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 loading: true
             }
-        case USER_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.payload
+        case USER_FAILURE:{
+            openNotification('error', action.payload)
+                return {
+                    ...state,
+                    loading: false,
+                    error: action.payload
+                }
             }
-        case SIGNUP_USER_SUCCESS:
-            return {
-                ...state,
-                loading: false
+        case SIGNUP_USER_SUCCESS:{
+                openNotification('success','Successfully Signed Up!')
+                return {
+                    ...state,
+                    loading: false
+                }
             }
         case AUTHENTICATE_USER:
             return {
@@ -41,6 +51,7 @@ const userReducer = (state = initialState, action) => {
             }
         case LOGOUT_USER: {
             localStorage.clear();
+            openNotification('success', 'Successfully Logged out!')
             return {
                 ...initialState
             }
