@@ -1,8 +1,9 @@
+import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Modal } from "antd";
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { loginUser } from "../redux/actions";
-import { Form, Input, Button, Modal } from "antd";
-import { MailOutlined, LockOutlined } from "@ant-design/icons";
 
 const LoginForm = ({ visible, onLoginClick, onCancel, loading }) => {
   const [form] = Form.useForm();
@@ -83,10 +84,14 @@ const LoginForm = ({ visible, onLoginClick, onCancel, loading }) => {
 };
 
 const Login = ({ loading, loginUser }) => {
+  const history = useHistory();
   const [visible, setVisible] = useState(false);
 
   const onLoginClick = values => loginUser(values)
-            // .then(res => setVisible(false));
+            .then(res => {
+              setVisible(false);
+              history.push('/dashboard');
+            });
 
   return (
     <div>

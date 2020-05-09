@@ -1,11 +1,5 @@
-import {
-    USER_REQUEST,
-    USER_FAILURE,
-    SIGNUP_USER_SUCCESS,
-    AUTHENTICATE_USER,
-    LOGOUT_USER,
-} from "./types";
 import { notification } from 'antd';
+import { AUTHENTICATE_USER, LOGOUT_USER, SAVE_DETAILS, SIGNUP_USER_SUCCESS, USER_FAILURE, USER_REQUEST } from "./types";
 
 const openNotification = (type, title) => {
     notification[type]({
@@ -17,7 +11,8 @@ const initialState = {
     loading: false,
     user: {},
     error: '',
-    authToken: ''
+    authToken: '',
+    details: {}
 }
 
 const userReducer = (state = initialState, action) => {
@@ -28,6 +23,7 @@ const userReducer = (state = initialState, action) => {
                 loading: true
             }
         case USER_FAILURE:{
+            console.log(state);
             openNotification('error', action.payload)
                 return {
                     ...state,
@@ -48,6 +44,12 @@ const userReducer = (state = initialState, action) => {
                 loading: false,
                 user: action.payload.user,
                 authToken: action.payload.token
+            }
+        case SAVE_DETAILS:
+            return {
+                ...state,
+                loading: false,
+                details: action.payload.user
             }
         case LOGOUT_USER: {
             localStorage.clear();

@@ -1,11 +1,5 @@
-import {
-  USER_REQUEST,
-  USER_FAILURE,
-  AUTHENTICATE_USER,
-  SIGNUP_USER_SUCCESS,
-  LOGOUT_USER
-} from "./types";
 import axios from "axios";
+import { AUTHENTICATE_USER, LOGOUT_USER, SAVE_DETAILS, SIGNUP_USER_SUCCESS, USER_FAILURE, USER_REQUEST } from "./types";
 
 export const userRequest = () => {
   return {
@@ -36,6 +30,13 @@ export const authenticateUser = userDetails => {
 export const logoutUser = () => {
   return {
     type: LOGOUT_USER
+  };
+};
+
+export const saveDetails = (details) => {
+  return {
+    type: SAVE_DETAILS,
+    payload: details
   };
 };
 
@@ -79,6 +80,26 @@ export const loginUser = userData => {
       .catch(error => {
         const errorMsg = error.message;
         dispatch(userFailure(errorMsg));
+      });
+  };
+};
+
+export const getDetails = () => {
+  return dispatch => {
+    dispatch(userRequest());
+    return axios.get("/user-details", {
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`
+      }
+    })
+      .then(response => {
+        if (!response.data.error) {
+          dispatch(saveDetails(response.data));
+        } else dispatch(userFailure(response.data.error));
+      })
+      .catch(error => {
+        dispatch(userFailure("Unauthorized User!"));
       });
   };
 };
