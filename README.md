@@ -29,5 +29,13 @@
 
 > `npm start` inside `/client` directory to start client server
 
+## To run with docker container
+
+
+### for production mode
+
+> `docker-compose -f docker-compose.yml -f production.yml up --build --remove-orphans`
+
+> `docker-compose up --build --remove-orphans`
 
 

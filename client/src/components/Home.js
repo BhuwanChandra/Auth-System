@@ -37,7 +37,7 @@ const Home = ({ logout, getDetails, details }) => {
           >
             <Meta
               title={`Hello, ${details.name}`}
-              description="Welcome in the world of programming!"
+              description="Welcome in the world of programming!!"
             />
           </Card>
           <Button
