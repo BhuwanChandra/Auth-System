@@ -43,6 +43,6 @@ jobs:
         with:
           urls: |
             https://auth-system-7779.herokuapp.com/
-          configPath: '../../lighthouserc.js'
+          configPath: './lighthouserc.js'
           uploadArtifacts: true
           temporaryPublicStorage: true
