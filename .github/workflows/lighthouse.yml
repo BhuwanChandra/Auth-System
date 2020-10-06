@@ -1,9 +1,9 @@
 name: Lighthouse CI
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches-ignore:
+      - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -42,9 +42,7 @@ jobs:
         uses: treosh/lighthouse-ci-action@v3
         with:
           urls: |
-            https://operationcode.org/
-            https://operationcode.org/about/
-            https://operationcode.org/events/
-            https://operationcode.org/get_involved/
-            https://operationcode.org/donate/
+            https://auth-system-7779.herokuapp.com/
+          configPath: '../../lighthouserc.js'
           uploadArtifacts: true
+          temporaryPublicStorage: true
