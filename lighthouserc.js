@@ -2,7 +2,7 @@ module.exports = {
   ci: {
     // Static site example
     collect: {
-      startServerCommand: "npm run start",
+      startServerCommand: "cd client && npm run start",
       url: ["https://auth-system-7779.herokuapp.com/"],
     },
     upload: {
