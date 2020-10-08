@@ -1,8 +1,8 @@
-name: Lighthouse CI
+name: lighthouse
 on: [push, pull_request]
 
 jobs:
-  build:
+  performance_check:
     runs-on: ubuntu-latest
 
     steps:
