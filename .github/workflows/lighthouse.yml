@@ -11,7 +11,7 @@ jobs:
       - name: Read .nvmrc
         run: echo ::set-output name=NVMRC::$(cat .nvmrc)
         id: nvm
-        
+
       - name: Use Node
         uses: actions/setup-node@v1
         with:
@@ -36,7 +36,9 @@ jobs:
         run: cd client && yarn install --frozen-lockfile --non-interactive
 
       - name: Audit URLs using Lighthouse
-        uses: treosh/lighthouse-ci-action@v3
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun --upload.target=temporary-public-storage || echo "LHCI failed!"
         with:
           configPath: "./lighthouserc.js"
           uploadArtifacts: true
