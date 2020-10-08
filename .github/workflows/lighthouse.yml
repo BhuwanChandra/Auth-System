@@ -11,10 +11,7 @@ jobs:
       - name: Read .nvmrc
         run: echo ::set-output name=NVMRC::$(cat .nvmrc)
         id: nvm
-
-      - name: change to client
-        run: cd client
-
+        
       - name: Use Node
         uses: actions/setup-node@v1
         with:
@@ -36,7 +33,7 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --non-interactive
+        run: cd client && yarn install --frozen-lockfile --non-interactive
 
       - name: Audit URLs using Lighthouse
         uses: treosh/lighthouse-ci-action@v3
