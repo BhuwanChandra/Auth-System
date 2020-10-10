@@ -7,6 +7,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Read .nvmrc
         run: echo ::set-output name=NVMRC::$(cat .nvmrc)
@@ -36,9 +38,9 @@ jobs:
         run: cd client && yarn install --frozen-lockfile --non-interactive
 
       - name: Audit URLs using Lighthouse
-        run: |
-          npm install -g @lhci/cli
-          lhci autorun --upload.target=temporary-public-storage || echo "LHCI failed!"
+        uses: treosh/lighthouse-ci-action@v3
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         with:
           configPath: "./lighthouserc.js"
           uploadArtifacts: true
