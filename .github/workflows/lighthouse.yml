@@ -1,13 +1,15 @@
-name: Lighthouse CI
+name: lighthouse
 on: [push, pull_request]
 
 jobs:
-  build:
+  performance_check:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
       - name: Read .nvmrc
         run: echo ::set-output name=NVMRC::$(cat .nvmrc)
         id: nvm
@@ -17,7 +19,7 @@ jobs:
         with:
           always-auth: true
           registry-url: https://registry.npmjs.org
-          node-version: '${{ steps.nvm.outputs.NVMRC }}'
+          node-version: "${{ steps.nvm.outputs.NVMRC }}"
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -33,13 +35,13 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --non-interactive
+        run: cd client && yarn install --frozen-lockfile --non-interactive
 
       - name: Audit URLs using Lighthouse
         uses: treosh/lighthouse-ci-action@v3
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         with:
-          urls: |
-            https://auth-system-7779.herokuapp.com/
-          configPath: './lighthouserc.js'
+          configPath: "./lighthouserc.js"
           uploadArtifacts: true
           temporaryPublicStorage: true
